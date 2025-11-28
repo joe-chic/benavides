@@ -21,8 +21,8 @@ class TokenData(BaseModel):
 
 
 class LoginRequest(BaseModel):
-    """Login request schema"""
-    username: str
+    """Login request schema - accepts email for login"""
+    email: EmailStr
     password: str
 
 

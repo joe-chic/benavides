@@ -115,29 +115,34 @@ INSERT INTO public.role_permissions (role_id, permission_id) VALUES
 ('550e8400-e29b-41d4-a716-446655440060', '550e8400-e29b-41d4-a716-446655440077'),
 ('550e8400-e29b-41d4-a716-446655440060', '550e8400-e29b-41d4-a716-446655440078'),
 ('550e8400-e29b-41d4-a716-446655440060', '550e8400-e29b-41d4-a716-446655440079'),
-('550e8400-e29b-41d4-a716-446655440060', '550e8400-e29b-41d4-a716-446655440080');
+('550e8400-e29b-41d4-a716-446655440060', '550e8400-e29b-41d4-a716-446655440080')
+ON CONFLICT DO NOTHING;
 
 -- Medic: View patients, create consultations, create prescriptions
 INSERT INTO public.role_permissions (role_id, permission_id) VALUES
 ('550e8400-e29b-41d4-a716-446655440061', '550e8400-e29b-41d4-a716-446655440070'),
 ('550e8400-e29b-41d4-a716-446655440061', '550e8400-e29b-41d4-a716-446655440073'),
 ('550e8400-e29b-41d4-a716-446655440061', '550e8400-e29b-41d4-a716-446655440074'),
-('550e8400-e29b-41d4-a716-446655440061', '550e8400-e29b-41d4-a716-446655440075');
+('550e8400-e29b-41d4-a716-446655440061', '550e8400-e29b-41d4-a716-446655440075')
+ON CONFLICT DO NOTHING;
 
 -- Patient: View own consultations
 INSERT INTO public.role_permissions (role_id, permission_id) VALUES
-('550e8400-e29b-41d4-a716-446655440062', '550e8400-e29b-41d4-a716-446655440073');
+('550e8400-e29b-41d4-a716-446655440062', '550e8400-e29b-41d4-a716-446655440073')
+ON CONFLICT DO NOTHING;
 
 -- Recepcionist: View patients, create patients, schedule appointments
 INSERT INTO public.role_permissions (role_id, permission_id) VALUES
 ('550e8400-e29b-41d4-a716-446655440063', '550e8400-e29b-41d4-a716-446655440070'),
 ('550e8400-e29b-41d4-a716-446655440063', '550e8400-e29b-41d4-a716-446655440071'),
-('550e8400-e29b-41d4-a716-446655440063', '550e8400-e29b-41d4-a716-446655440077');
+('550e8400-e29b-41d4-a716-446655440063', '550e8400-e29b-41d4-a716-446655440077')
+ON CONFLICT DO NOTHING;
 
 -- Pharmaceutic: View prescriptions, dispense medications
 INSERT INTO public.role_permissions (role_id, permission_id) VALUES
 ('550e8400-e29b-41d4-a716-446655440064', '550e8400-e29b-41d4-a716-446655440073'),
-('550e8400-e29b-41d4-a716-446655440064', '550e8400-e29b-41d4-a716-446655440076');
+('550e8400-e29b-41d4-a716-446655440064', '550e8400-e29b-41d4-a716-446655440076')
+ON CONFLICT DO NOTHING;
 
 -- ============================================================================
 -- USERS
@@ -245,14 +250,14 @@ INSERT INTO public.meds_synonyms (synonym, med_id) VALUES
 ('Losartán', '550e8400-e29b-41d4-a716-446655440401'),
 ('Cozaar', '550e8400-e29b-41d4-a716-446655440401'),
 ('Amoxicilina', '550e8400-e29b-41d4-a716-446655440402'),
-('Amoxicilina', '550e8400-e29b-41d4-a716-446655440402'),
 ('Omeprazol', '550e8400-e29b-41d4-a716-446655440403'),
 ('Losec', '550e8400-e29b-41d4-a716-446655440403'),
 ('Ibuprofeno', '550e8400-e29b-41d4-a716-446655440404'),
 ('Advil', '550e8400-e29b-41d4-a716-446655440404'),
 ('Paracetamol', '550e8400-e29b-41d4-a716-446655440405'),
 ('Tylenol', '550e8400-e29b-41d4-a716-446655440405'),
-('Acetaminofén', '550e8400-e29b-41d4-a716-446655440405');
+('Acetaminofén', '550e8400-e29b-41d4-a716-446655440405')
+ON CONFLICT DO NOTHING;
 
 -- ============================================================================
 -- DRUG INTERACTIONS

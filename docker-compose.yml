@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:18.0
@@ -13,6 +11,11 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      # These SQL files are mounted to /docker-entrypoint-initdb.d/
+      # IMPORTANT: These scripts ONLY run when the database is first created
+      # (i.e., when the postgres_data volume is empty).
+      # If the volume already exists, these scripts will NOT run.
+      # To force re-initialization, run: docker compose down -v
       - ./db/schema/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
       - ./db/dummy-data/dummy.sql:/docker-entrypoint-initdb.d/02-dummy-data.sql
     healthcheck:
@@ -52,4 +55,3 @@ volumes:
 networks:
   benavides_network:
     driver: bridge
-

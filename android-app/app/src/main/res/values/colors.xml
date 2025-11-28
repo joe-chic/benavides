@@ -2,4 +2,24 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <!-- Brand Colors from Figma -->
+    <color name="brand_primary">#001489</color>
+    <color name="brand_blue_900">#001489</color>
+    
+    <!-- Button Colors -->
+    <color name="button_primary_bg">#001489</color>
+    <color name="button_primary_fg">#FFFFFF</color>
+    <color name="button_secondary_bg">#FFFFFF</color>
+    <color name="button_secondary_fg">#111318</color>
+    <color name="button_secondary_border">#8891a1</color>
+    
+    <!-- Text Colors -->
+    <color name="text_primary">#111318</color>
+    <color name="text_secondary">#646c7a</color>
+    <color name="text_tertiary">#333333</color>
+    <color name="text_link">#001489</color>
+    
+    <!-- Border Colors -->
+    <color name="border_strong">#646c7a</color>
 </resources>

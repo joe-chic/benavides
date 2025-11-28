@@ -60,20 +60,21 @@ async def login(
     """
     Login endpoint - Returns JWT access and refresh tokens
     
+    Accepts email for login (as required by mobile app).
+    
     Note: This is a base implementation. In production, you should:
     - Validate credentials against the database
     - Implement proper password verification
     - Add rate limiting
     - Add logging for security events
     """
-    # Base implementation - for now, accept any username/password
-    # TODO: Implement proper authentication against users table
-    user = db.query(User).filter(User.username == login_data.username).first()
+    # Query user by email (as required by mobile app)
+    user = db.query(User).filter(User.email == login_data.email).first()
     
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password"
+            detail="Incorrect email or password"
         )
     
     # TODO: Verify password when password_hash is properly set
