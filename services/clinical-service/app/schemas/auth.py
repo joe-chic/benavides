@@ -39,6 +39,7 @@ class UserResponse(BaseModel):
     display_name: Optional[str] = None
     mfa_enabled: bool
     created_at: Optional[datetime] = None
+    roles: list[str] = []  # List of role names
     
     class Config:
         from_attributes = True

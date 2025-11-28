@@ -40,6 +40,11 @@
             android:name=".MainActivity"
             android:exported="false"
             android:theme="@style/Theme.BenavidesApp" />
+        
+        <activity
+            android:name=".ui.patient.PatientHomeActivity"
+            android:exported="false"
+            android:theme="@style/Theme.BenavidesApp" />
     </application>
 
 </manifest>

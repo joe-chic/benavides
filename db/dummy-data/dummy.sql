@@ -159,7 +159,13 @@ INSERT INTO public.users (id, username, password_hash, email, mfa_enabled, displ
 ('550e8400-e29b-41d4-a716-446655440105', 'recepcion.cdmx', '$2b$10$rK9X8Z5Y3mN2pQ7vT9wX0e', 'recepcion.cdmx@farmaciasbenavides.com.mx', false, 'Patricia Ramírez', '2024-01-15 08:00:00-06', '550e8400-e29b-41d4-a716-446655440100'),
 -- Pharmaceutics
 ('550e8400-e29b-41d4-a716-446655440106', 'farm.jimenez', '$2b$10$rK9X8Z5Y3mN2pQ7vT9wX0e', 'farm.jimenez@farmaciasbenavides.com.mx', false, 'Farmacéutico Roberto Jiménez', '2024-01-15 08:00:00-06', '550e8400-e29b-41d4-a716-446655440100'),
-('550e8400-e29b-41d4-a716-446655440107', 'farm.torres', '$2b$10$rK9X8Z5Y3mN2pQ7vT9wX0e', 'farm.torres@farmaciasbenavides.com.mx', false, 'Farmacéutica Laura Torres', '2024-01-15 08:00:00-06', '550e8400-e29b-41d4-a716-446655440100');
+('550e8400-e29b-41d4-a716-446655440107', 'farm.torres', '$2b$10$rK9X8Z5Y3mN2pQ7vT9wX0e', 'farm.torres@farmaciasbenavides.com.mx', false, 'Farmacéutica Laura Torres', '2024-01-15 08:00:00-06', '550e8400-e29b-41d4-a716-446655440100'),
+-- Patients (user accounts for patients)
+('550e8400-e29b-41d4-a716-446655440108', 'juan.perez', '$2b$10$rK9X8Z5Y3mN2pQ7vT9wX0e', 'juan.perez@email.com', false, 'Juan Pérez García', '2024-02-01 10:30:00-06', '550e8400-e29b-41d4-a716-446655440104'),
+('550e8400-e29b-41d4-a716-446655440109', 'maria.rodriguez', '$2b$10$rK9X8Z5Y3mN2pQ7vT9wX0e', 'maria.rodriguez@email.com', false, 'María Rodríguez López', '2024-02-02 11:15:00-06', '550e8400-e29b-41d4-a716-446655440104'),
+('550e8400-e29b-41d4-a716-446655440110', 'roberto.fernandez', '$2b$10$rK9X8Z5Y3mN2pQ7vT9wX0e', 'roberto.fernandez@email.com', false, 'Roberto Fernández Morales', '2024-02-03 09:45:00-06', '550e8400-e29b-41d4-a716-446655440104'),
+('550e8400-e29b-41d4-a716-446655440111', 'ana.sanchez', '$2b$10$rK9X8Z5Y3mN2pQ7vT9wX0e', 'ana.sanchez@email.com', false, 'Ana Sánchez González', '2024-02-04 14:20:00-06', '550e8400-e29b-41d4-a716-446655440104'),
+('550e8400-e29b-41d4-a716-446655440112', 'carlos.moreno', '$2b$10$rK9X8Z5Y3mN2pQ7vT9wX0e', 'carlos.moreno@email.com', false, 'Carlos Moreno Díaz', '2024-02-05 16:00:00-06', '550e8400-e29b-41d4-a716-446655440105');
 
 -- ============================================================================
 -- USER ROLES
@@ -176,7 +182,13 @@ INSERT INTO public.user_roles (role_id, user_id, assigned_at, assigned_by) VALUE
 ('550e8400-e29b-41d4-a716-446655440063', '550e8400-e29b-41d4-a716-446655440105', '2024-01-15 08:00:00-06', '550e8400-e29b-41d4-a716-446655440100'),
 -- Pharmaceutics
 ('550e8400-e29b-41d4-a716-446655440064', '550e8400-e29b-41d4-a716-446655440106', '2024-01-15 08:00:00-06', '550e8400-e29b-41d4-a716-446655440100'),
-('550e8400-e29b-41d4-a716-446655440064', '550e8400-e29b-41d4-a716-446655440107', '2024-01-15 08:00:00-06', '550e8400-e29b-41d4-a716-446655440100');
+('550e8400-e29b-41d4-a716-446655440064', '550e8400-e29b-41d4-a716-446655440107', '2024-01-15 08:00:00-06', '550e8400-e29b-41d4-a716-446655440100'),
+-- Patients
+('550e8400-e29b-41d4-a716-446655440062', '550e8400-e29b-41d4-a716-446655440108', '2024-02-01 10:30:00-06', '550e8400-e29b-41d4-a716-446655440104'),
+('550e8400-e29b-41d4-a716-446655440062', '550e8400-e29b-41d4-a716-446655440109', '2024-02-02 11:15:00-06', '550e8400-e29b-41d4-a716-446655440104'),
+('550e8400-e29b-41d4-a716-446655440062', '550e8400-e29b-41d4-a716-446655440110', '2024-02-03 09:45:00-06', '550e8400-e29b-41d4-a716-446655440104'),
+('550e8400-e29b-41d4-a716-446655440062', '550e8400-e29b-41d4-a716-446655440111', '2024-02-04 14:20:00-06', '550e8400-e29b-41d4-a716-446655440104'),
+('550e8400-e29b-41d4-a716-446655440062', '550e8400-e29b-41d4-a716-446655440112', '2024-02-05 16:00:00-06', '550e8400-e29b-41d4-a716-446655440105');
 
 -- ============================================================================
 -- PATIENTS

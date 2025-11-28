@@ -40,13 +40,40 @@ Based on the dummy data in the database, you can use any of these usernames to t
 - **Display Name**: Farmacéutica Laura Torres
 - **Password**: Any password
 
+### Patients
+- **Email**: `juan.perez@email.com`
+- **Display Name**: Juan Pérez García
+- **Password**: Any password (base implementation accepts any password for existing users)
+
+- **Email**: `maria.rodriguez@email.com`
+- **Display Name**: María Rodríguez López
+- **Password**: Any password
+
+- **Email**: `roberto.fernandez@email.com`
+- **Display Name**: Roberto Fernández Morales
+- **Password**: Any password
+
+- **Email**: `ana.sanchez@email.com`
+- **Display Name**: Ana Sánchez González
+- **Password**: Any password
+
+- **Email**: `carlos.moreno@email.com`
+- **Display Name**: Carlos Moreno Díaz
+- **Password**: Any password
+
 ## Recommended Test Credentials
 
-**For quick testing, use:**
-- **Email**: `dr.garcia@farmaciasbenavides.com.mx` ← Enter the email address
+**For testing patient home view (recommended):**
+- **Email**: `juan.perez@email.com` ← Patient account
+- **Password**: `test123` (or any password - base implementation)
+
+**For testing other roles:**
+- **Email**: `dr.garcia@farmaciasbenavides.com.mx` ← Medic account
 - **Password**: `test123` (or any password - base implementation)
 
 **Note**: The app now uses email-based login. Enter the full email address in the email field.
+- **Patient accounts** will navigate to the Patient Home view
+- **Other role accounts** will show a placeholder message (not yet implemented)
 
 ## Notes
 

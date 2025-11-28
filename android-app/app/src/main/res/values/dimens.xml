@@ -24,5 +24,6 @@
     <dimen name="text_size_h3">18sp</dimen>
     <dimen name="text_size_body">16sp</dimen>
     <dimen name="text_size_small">14sp</dimen>
+    <dimen name="status_bar_height">24dp</dimen>
 </resources>
 

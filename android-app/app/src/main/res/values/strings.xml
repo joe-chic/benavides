@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">Benavides App</string>
+    <string name="home">Inicio</string>
+    <string name="menu">Menú</string>
+    <string name="prescriptions">Prescripciones</string>
+    <string name="appointments">Citas</string>
+    <string name="medical_history">Historial médico</string>
+    <string name="welcome">Bienvenido</string>
     
     <!-- Login Screen -->
     <string name="login_title">Inicio de sesión</string>

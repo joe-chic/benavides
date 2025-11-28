@@ -23,4 +23,5 @@ class User(Base):
     
     # Relationships
     creator = relationship("User", remote_side=[id], backref="created_users")
+    # Note: user_roles relationship is defined in UserRole model with back_populates
 

@@ -39,5 +39,13 @@ class SharedPreferencesHelper(context: Context) {
     }
     
     fun isLoggedIn(): Boolean = getAccessToken() != null
+    
+    fun clearTokens() {
+        prefs.edit().remove(KEY_ACCESS_TOKEN).remove(KEY_REFRESH_TOKEN).apply()
+    }
+    
+    fun clearUserInfo() {
+        prefs.edit().remove(KEY_USER_ID).remove(KEY_USERNAME).apply()
+    }
 }
 

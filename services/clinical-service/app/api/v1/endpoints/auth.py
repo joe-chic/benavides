@@ -12,6 +12,8 @@ from app.core.security import (
     verify_token
 )
 from app.models.user import User
+from app.models.role import Role, UserRole
+from app.models.role import Role, UserRole
 from app.schemas.auth import (
     LoginRequest,
     Token,
@@ -145,8 +147,26 @@ async def refresh_token(
 
 @router.get("/me", response_model=UserResponse)
 async def get_current_user_info(
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
 ):
-    """Get current user information"""
-    return current_user
+    """Get current user information with roles"""
+    # Get user roles - query UserRole directly to avoid relationship issues
+    user_roles = db.query(UserRole).filter(UserRole.user_id == current_user.id).all()
+    roles = []
+    for ur in user_roles:
+        role = db.query(Role).filter(Role.id == ur.role_id).first()
+        if role:
+            roles.append(role.name)
+    
+    # Create response with roles
+    return UserResponse(
+        id=current_user.id,
+        username=current_user.username,
+        email=current_user.email,
+        display_name=current_user.display_name,
+        mfa_enabled=current_user.mfa_enabled,
+        created_at=current_user.created_at,
+        roles=roles
+    )
 

@@ -40,6 +40,7 @@ data class UserResponse(
     @SerializedName("display_name")
     val displayName: String?,
     @SerializedName("mfa_enabled")
-    val mfaEnabled: Boolean
+    val mfaEnabled: Boolean,
+    val roles: List<String> = emptyList()
 )
 

@@ -92,13 +92,24 @@ class LoginActivity : AppCompatActivity() {
                     if (userResponse.isSuccessful && userResponse.body() != null) {
                         val user = userResponse.body()!!
                         prefsHelper.saveUserInfo(user.id, user.username)
+                        
+                        // Navigate based on user role
+                        if (user.roles.contains("patient")) {
+                            // Navigate to patient home
+                            val intent = Intent(this@LoginActivity, jonathan.humphreys.benavidesapp.ui.patient.PatientHomeActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            // Other roles - show placeholder message
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Rol no implementado aún: ${user.roles.joinToString()}",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    } else {
+                        Toast.makeText(this@LoginActivity, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
                     }
-                    
-                    Toast.makeText(this@LoginActivity, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
-                    
-                    // Navigate to main activity (to be implemented)
-                    // startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                    // finish()
                 } else {
                     Toast.makeText(
                         this@LoginActivity,

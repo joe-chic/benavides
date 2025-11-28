@@ -22,4 +22,15 @@
     
     <!-- Border Colors -->
     <color name="border_strong">#646c7a</color>
+    
+    <!-- Background Colors -->
+    <color name="bg_app">#F8FAFD</color>
+    
+    <!-- Gray Colors -->
+    <color name="gray_200">#C0C6D0</color>
+    <color name="text_dark">#000000</color>
+    <color name="text_light">#FFFFFF</color>
+    
+    <!-- Active Icon Color -->
+    <color name="icon_active">#3894FF</color>
 </resources>
