@@ -44,4 +44,10 @@
     <color name="status_missed">#C2410C</color>
     <color name="button_destructive_bg">#7f1d1d</color>
     <color name="bg_bottom_nav">#dde1f0</color>
+    <color name="chip_primary_bg">#E3EEFF</color>
+    <color name="chip_primary_text">#0E47A1</color>
+    <color name="chip_neutral_bg">#F2F4F7</color>
+    <color name="chip_neutral_text">#4B5565</color>
+    <color name="chip_warning_bg">#FDEAD7</color>
+    <color name="chip_warning_text">#B54708</color>
 </resources>

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_app"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="8dp">
+
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:padding="8dp"
+            android:src="@drawable/ic_chevron_left"
+            android:contentDescription="@string/app_name"
+            android:tint="@color/text_dark" />
+
+        <TextView
+            android:id="@+id/sectionTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Historial"
+            android:textColor="@color/text_dark"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintWidth_max="0dp"
+            android:maxLines="1"
+            android:ellipsize="end" />
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/detailSearchCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/searchBackground"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_search_bar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <ImageView
+                    android:id="@+id/detailSearchIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="12dp"
+                    android:src="@drawable/ic_search"
+                    app:layout_constraintStart_toStartOf="@id/searchBackground"
+                    app:layout_constraintTop_toTopOf="@id/searchBackground"
+                    app:layout_constraintBottom_toBottomOf="@id/searchBackground" />
+
+                <EditText
+                    android:id="@+id/detailSearchInput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Buscar en registros"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textColor="@color/text_dark"
+                    android:textColorHint="@color/text_secondary"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toEndOf="@id/detailSearchIcon"
+                    app:layout_constraintEnd_toEndOf="@id/searchBackground"
+                    app:layout_constraintTop_toTopOf="@id/searchBackground"
+                    app:layout_constraintBottom_toBottomOf="@id/searchBackground" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/detailFilterButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_filter_button"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="Filtros"
+                android:textAllCaps="false"
+                android:textColor="@color/text_secondary"
+                android:textSize="16sp"
+                app:backgroundTint="@null"
+                app:icon="@drawable/ic_filter"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconTint="@color/text_secondary" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/detailListCard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="1dp"
+        app:layout_constraintTop_toBottomOf="@id/detailSearchCard"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <TextView
+                android:id="@+id/detailSectionHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Antecedentes y Condiciones"
+                android:textColor="@color/text_dark"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:paddingBottom="8dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/detailRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:clipToPadding="false" />
+
+            <TextView
+                android:id="@+id/detailEmptyState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Sin registros para mostrar"
+                android:textColor="@color/text_secondary"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/detailPaginationContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                android:visibility="gone">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/detailPrevButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text=""
+                    android:backgroundTint="@android:color/white"
+                    android:stateListAnimator="@null"
+                    app:icon="@drawable/ic_chevron_left"
+                    app:iconTint="@color/text_dark"
+                    app:rippleColor="@android:color/transparent"
+                    app:strokeColor="@color/button_secondary_border"
+                    app:strokeWidth="1dp" />
+
+                <LinearLayout
+                    android:id="@+id/detailPageButtons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:orientation="horizontal" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/detailNextButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text=""
+                    android:backgroundTint="@android:color/white"
+                    android:stateListAnimator="@null"
+                    app:icon="@drawable/ic_chevron_right"
+                    app:iconTint="@color/text_dark"
+                    app:rippleColor="@android:color/transparent"
+                    app:strokeColor="@color/button_secondary_border"
+                    app:strokeWidth="1dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
