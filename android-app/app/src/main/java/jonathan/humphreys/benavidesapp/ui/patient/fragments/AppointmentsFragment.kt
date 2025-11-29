@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.button.MaterialButton
 import jonathan.humphreys.benavidesapp.R
 import jonathan.humphreys.benavidesapp.data.api.RetrofitClient
+import jonathan.humphreys.benavidesapp.data.repository.AuthRepository
 import jonathan.humphreys.benavidesapp.data.model.Appointment
 import jonathan.humphreys.benavidesapp.databinding.FragmentAppointmentsBinding
 import jonathan.humphreys.benavidesapp.ui.patient.adapters.AppointmentAdapter
@@ -112,25 +113,28 @@ class AppointmentsFragment : Fragment() {
     }
 
     private fun loadAppointments() {
-        val token = prefsHelper.getAccessToken()
         val userId = prefsHelper.getUserId()
 
-        if (token == null || userId == null) {
-            Toast.makeText(requireContext(), "No se encontró token de autenticación", Toast.LENGTH_SHORT).show()
+        if (userId == null) {
+            Toast.makeText(requireContext(), "Sesión inválida", Toast.LENGTH_SHORT).show()
             return
         }
 
         binding.progressBar.visibility = View.VISIBLE
         lifecycleScope.launch {
             try {
-                val response = RetrofitClient.appointmentApiService.getAppointments(
-                    token = "Bearer $token",
-                    patientId = userId,
-                    skip = 0,
-                    limit = 200
-                )
+                val response = AuthRepository.authenticatedRequest(prefsHelper) { authHeader ->
+                    RetrofitClient.appointmentApiService.getAppointments(
+                        token = authHeader,
+                        patientId = userId,
+                        skip = 0,
+                        limit = 200
+                    )
+                }
 
-                if (response.isSuccessful && response.body() != null) {
+                if (response == null) {
+                    Toast.makeText(requireContext(), "Sesión inválida", Toast.LENGTH_SHORT).show()
+                } else if (response.isSuccessful && response.body() != null) {
                     allAppointments = response.body()!!
                         .sortedByDescending { appointment ->
                             parseDate(appointment.appointmentDateTime)?.time ?: 0L
@@ -138,6 +142,8 @@ class AppointmentsFragment : Fragment() {
                     filteredAppointments = allAppointments
                     currentPage = 1
                     updatePaginationState()
+                } else if (response.code() == 401) {
+                    Toast.makeText(requireContext(), "Sesión expirada. Inicia sesión nuevamente.", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(requireContext(), "Error al cargar citas", Toast.LENGTH_SHORT).show()
                 }
