@@ -7,16 +7,19 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import jonathan.humphreys.benavidesapp.R
 import jonathan.humphreys.benavidesapp.databinding.ActivityPatientHomeBinding
 import jonathan.humphreys.benavidesapp.ui.login.LoginActivity
+import jonathan.humphreys.benavidesapp.ui.patient.fragments.*
 import jonathan.humphreys.benavidesapp.util.SharedPreferencesHelper
 
 class PatientHomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPatientHomeBinding
     private lateinit var prefsHelper: SharedPreferencesHelper
     private var isSidebarOpen = false
+    private var activeSidebarItem: View? = null
     
     companion object {
         private const val TAG = "PatientHomeActivity"
@@ -63,21 +66,15 @@ class PatientHomeActivity : AppCompatActivity() {
         
         // Sidebar menu items
         binding.sidebarEstudiosResultados.setOnClickListener {
-            updateTitleFromSidebar("Estudios y resultados")
-            // TODO: Navigate to studies and results
-            closeSidebar()
+            handleSidebarSelection(binding.sidebarEstudiosResultados, "Estudios y resultados", HomeFragment())
         }
         
         binding.sidebarSignosVitales.setOnClickListener {
-            updateTitleFromSidebar("Signos vitales")
-            // TODO: Navigate to vital signs
-            closeSidebar()
+            handleSidebarSelection(binding.sidebarSignosVitales, getString(R.string.signos_vitales), VitalSignsFragment())
         }
         
         binding.sidebarConfiguracion.setOnClickListener {
-            updateTitleFromSidebar("Configuración")
-            // TODO: Navigate to settings
-            closeSidebar()
+            handleSidebarSelection(binding.sidebarConfiguracion, getString(R.string.configuracion), SettingsFragment())
         }
         
         binding.sidebarCerrarSesion.setOnClickListener {
@@ -103,6 +100,7 @@ class PatientHomeActivity : AppCompatActivity() {
         
         // Set home as active initially
         navigateToView("home")
+        updateSidebarSelection(binding.sidebarEstudiosResultados)
     }
     
     private fun toggleSidebar() {
@@ -176,6 +174,7 @@ class PatientHomeActivity : AppCompatActivity() {
     private fun navigateToView(viewName: String) {
         Log.d(TAG, "navigateToView: $viewName")
         
+        updateSidebarSelection(null)
         // Reset all icons to inactive state (gray/transparent)
         setIconColor(binding.bottomNavHome, false)
         setIconColor(binding.bottomNavPrescriptions, false)
@@ -200,8 +199,16 @@ class PatientHomeActivity : AppCompatActivity() {
             "medical_history" -> setIconColor(binding.bottomNavMedicalHistory, true)
         }
         
-        // TODO: Update main content area based on view
-        // For now, just show placeholder
+        // Replace fragment based on view
+        val fragment = when (viewName) {
+            "home" -> HomeFragment()
+            "prescriptions" -> PrescriptionsFragment()
+            "appointments" -> AppointmentsFragment()
+            "medical_history" -> MedicalHistoryFragment()
+            else -> HomeFragment()
+        }
+        
+        showFragment(fragment)
     }
     
     private fun setIconColor(imageView: ImageView, isActive: Boolean) {
@@ -219,6 +226,33 @@ class PatientHomeActivity : AppCompatActivity() {
     private fun updateTitleFromSidebar(title: String) {
         Log.d(TAG, "updateTitleFromSidebar: $title")
         binding.titleText.text = title
+    }
+
+    private fun showFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.mainContent, fragment)
+            .commit()
+    }
+
+    private fun handleSidebarSelection(menuItem: View, title: String, fragment: Fragment?) {
+        updateSidebarSelection(menuItem)
+        updateTitleFromSidebar(title)
+        fragment?.let { showFragment(it) }
+        closeSidebar()
+    }
+
+    private fun updateSidebarSelection(selected: View?) {
+        val sidebarItems = listOf(
+            binding.sidebarEstudiosResultados,
+            binding.sidebarSignosVitales,
+            binding.sidebarConfiguracion
+        )
+        val activeColor = ContextCompat.getColor(this, R.color.gray_200)
+        val inactiveColor = ContextCompat.getColor(this, android.R.color.white)
+        sidebarItems.forEach {
+            it.setBackgroundColor(if (it == selected) activeColor else inactiveColor)
+        }
+        activeSidebarItem = selected
     }
     
     private fun logout() {

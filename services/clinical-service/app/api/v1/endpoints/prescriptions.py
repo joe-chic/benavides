@@ -40,27 +40,69 @@ async def get_prescriptions(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Get list of prescriptions"""
+    """Get list of prescriptions with medic name, item count, and status"""
     if patient_id:
         query = text("""
-            SELECT id, prescription_code, patient_id, consultation_id, signed_by, signed_at, created_at
-            FROM prescriptions
-            WHERE patient_id = :patient_id
-            ORDER BY created_at DESC
+            SELECT 
+                p.id, 
+                p.prescription_code, 
+                p.patient_id, 
+                p.consultation_id, 
+                p.signed_by, 
+                p.signed_at, 
+                p.created_at,
+                u.display_name as medic_name,
+                (SELECT COUNT(*) FROM prescription_items WHERE prescription_id = p.id) as item_count,
+                CASE 
+                    WHEN p.signed_by IS NULL THEN 'cancelada'
+                    WHEN EXISTS (SELECT 1 FROM dispensations WHERE prescription_id = p.id AND status = 'dispensed') THEN 'dispensada'
+                    WHEN p.created_at < NOW() - INTERVAL '30 days' THEN 'vencida'
+                    ELSE 'vigente'
+                END as status
+            FROM prescriptions p
+            LEFT JOIN users u ON p.signed_by = u.id
+            WHERE p.patient_id = :patient_id
+            ORDER BY p.created_at DESC
             LIMIT :limit OFFSET :skip
         """)
         result = db.execute(query, {"patient_id": patient_id, "limit": limit, "skip": skip})
     else:
         query = text("""
-            SELECT id, prescription_code, patient_id, consultation_id, signed_by, signed_at, created_at
-            FROM prescriptions
-            ORDER BY created_at DESC
+            SELECT 
+                p.id, 
+                p.prescription_code, 
+                p.patient_id, 
+                p.consultation_id, 
+                p.signed_by, 
+                p.signed_at, 
+                p.created_at,
+                u.display_name as medic_name,
+                (SELECT COUNT(*) FROM prescription_items WHERE prescription_id = p.id) as item_count,
+                CASE 
+                    WHEN p.signed_by IS NULL THEN 'cancelada'
+                    WHEN EXISTS (SELECT 1 FROM dispensations WHERE prescription_id = p.id AND status = 'dispensed') THEN 'dispensada'
+                    WHEN p.created_at < NOW() - INTERVAL '30 days' THEN 'vencida'
+                    ELSE 'vigente'
+                END as status
+            FROM prescriptions p
+            LEFT JOIN users u ON p.signed_by = u.id
+            ORDER BY p.created_at DESC
             LIMIT :limit OFFSET :skip
         """)
         result = db.execute(query, {"limit": limit, "skip": skip})
     
     prescriptions = []
     for row in result:
+        # Calculate expiration date (30 days from creation)
+        expiration_date = None
+        if row[6]:  # created_at
+            try:
+                from datetime import datetime, timedelta
+                created_at = datetime.fromisoformat(str(row[6]).replace('Z', '+00:00'))
+                expiration_date = (created_at + timedelta(days=30)).strftime('%d/%m/%Y')
+            except:
+                pass
+        
         prescriptions.append({
             "id": str(row[0]),
             "prescription_code": row[1],
@@ -68,7 +110,11 @@ async def get_prescriptions(
             "consultation_id": str(row[3]) if row[3] else None,
             "signed_by": str(row[4]) if row[4] else None,
             "signed_at": str(row[5]) if row[5] else None,
-            "created_at": str(row[6]) if row[6] else None
+            "created_at": str(row[6]) if row[6] else None,
+            "medic_name": row[7] if row[7] else None,
+            "item_count": row[8] if row[8] else 0,
+            "status": row[9] if row[9] else "vigente",
+            "expiration_date": expiration_date
         })
     
     return prescriptions

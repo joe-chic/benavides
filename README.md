@@ -1,9 +1,9 @@
 # Farmacias Benavides - Clinical System
 
-Full-stack application for Farmacias Benavides clinical data management, including:
-- PostgreSQL database with normalized schema
-- FastAPI microservice for clinical data management
-- Android mobile application
+A full-stack platform for managing Farmacias Benavides clinical data with:
+- PostgreSQL database (3NF + referential integrity + realistic dummy data)
+- FastAPI microservice offering JWT auth, patients, consultations, prescriptions, and appointments endpoints
+- Kotlin Android app that mirrors the patient experience (login/create account/reset password + home/prescriptions/citas views)
 
 ## Quick Start
 
@@ -75,22 +75,23 @@ Full-stack application for Farmacias Benavides clinical data management, includi
 
 ### Test Credentials
 
-Use these credentials to test the login:
-- **Username**: `dr.garcia`
-- **Password**: Any password (base implementation accepts any password for existing users)
+Use the following logins while the UI/auth backend is under development:
+- **Patient**: `juan.perez@email.com` (any password)
+- **Medical staff**: `dr.garcia@farmaciasbenavides.com.mx` (any password)
 
-See `android-app/TEST_CREDENTIALS.md` for more test users.
+More optional accounts live in `android-app/TEST_CREDENTIALS.md`.
 
 ### API Testing
 
 1. Open http://localhost:8000/docs
-2. Try the `/api/v1/auth/login` endpoint with:
+2. Call `/api/v1/auth/login` with:
    ```json
    {
-     "username": "dr.garcia",
+     "email": "dr.garcia@farmaciasbenavides.com.mx",
      "password": "test123"
    }
    ```
+3. Explore `/api/v1/prescriptions/` and `/api/v1/appointments/?patient_id=<patient_uuid>`
 
 ## Development
 
@@ -106,10 +107,10 @@ The database schema is defined in `db/schema/schema.sql`. It follows 3NF normali
 ### FastAPI Service
 
 Located in `services/clinical-service/`, provides:
-- JWT authentication (access and refresh tokens)
-- Patient management endpoints
-- Consultation management
-- Prescription management
+- JWT authentication (access + refresh tokens) with email-based login
+- Patient management + clinical history endpoints
+- Consultation + prescription endpoints (includes metadata for the Android UI)
+- Appointments endpoint that supports search, status filtering, and pagination for the patient Citas view
 
 ### Android App
 

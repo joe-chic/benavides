@@ -5,6 +5,8 @@
     <string name="prescriptions">Prescripciones</string>
     <string name="appointments">Citas</string>
     <string name="medical_history">Historial médico</string>
+    <string name="signos_vitales">Signos vitales</string>
+    <string name="configuracion">Configuración</string>
     <string name="welcome">Bienvenido</string>
     
     <!-- Login Screen -->
@@ -33,6 +35,9 @@
     <string name="error_login_failed">Error al iniciar sesión. Verifica tus credenciales.</string>
     <string name="error_network">Error de conexión. Verifica tu internet.</string>
     <string name="error_unknown">Ha ocurrido un error inesperado</string>
+    <string name="empty_prescriptions">Aún no hay prescripciones para mostrar</string>
+    <string name="empty_appointments">Aún no hay citas para mostrar</string>
+    <string name="create_appointment">Crear cita</string>
     
     <!-- Success Messages -->
     <string name="success_account_created">Cuenta creada exitosamente</string>
