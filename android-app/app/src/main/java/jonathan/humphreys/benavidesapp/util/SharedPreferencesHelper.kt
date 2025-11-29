@@ -47,5 +47,16 @@ class SharedPreferencesHelper(context: Context) {
     fun clearUserInfo() {
         prefs.edit().remove(KEY_USER_ID).remove(KEY_USERNAME).apply()
     }
+    
+    fun getUserId(): String? = prefs.getString(KEY_USER_ID, null)
+    
+    fun getUserRoles(): List<String> {
+        val rolesString = prefs.getString("user_roles", null)
+        return rolesString?.split(",") ?: emptyList()
+    }
+    
+    fun saveUserRoles(roles: List<String>) {
+        prefs.edit().putString("user_roles", roles.joinToString(",")).apply()
+    }
 }
 

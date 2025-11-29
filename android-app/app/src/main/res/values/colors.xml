@@ -24,7 +24,7 @@
     <color name="border_strong">#646c7a</color>
     
     <!-- Background Colors -->
-    <color name="bg_app">#F8FAFD</color>
+    <color name="bg_app">#F1F5FF</color>
     
     <!-- Gray Colors -->
     <color name="gray_200">#C0C6D0</color>
@@ -33,4 +33,15 @@
     
     <!-- Active Icon Color -->
     <color name="icon_active">#3894FF</color>
+    
+    <!-- Status Colors -->
+    <color name="status_okay">#0e7c66</color>
+    <color name="status_dispensed">#001489</color>
+    <color name="status_expired">#7f1d1d</color>
+    <color name="status_cancelled">#646C7A</color>
+    <color name="status_scheduled">#0E7C66</color>
+    <color name="status_completed">#1F3A93</color>
+    <color name="status_missed">#C2410C</color>
+    <color name="button_destructive_bg">#7f1d1d</color>
+    <color name="bg_bottom_nav">#dde1f0</color>
 </resources>
