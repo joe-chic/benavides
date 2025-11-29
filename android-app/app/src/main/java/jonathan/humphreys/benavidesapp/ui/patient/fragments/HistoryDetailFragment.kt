@@ -23,6 +23,7 @@ import jonathan.humphreys.benavidesapp.data.model.ProcedureEntry
 import jonathan.humphreys.benavidesapp.databinding.FragmentHistoryDetailBinding
 import jonathan.humphreys.benavidesapp.ui.patient.adapters.HistoryDetailAdapter
 import jonathan.humphreys.benavidesapp.util.SharedPreferencesHelper
+import jonathan.humphreys.benavidesapp.data.repository.AuthRepository
 import kotlinx.coroutines.launch
 
 class HistoryDetailFragment : Fragment() {
@@ -117,10 +118,9 @@ class HistoryDetailFragment : Fragment() {
     }
 
     private fun fetchHistory() {
-        val token = prefsHelper.getAccessToken()
         val patientId = prefsHelper.getUserId()
 
-        if (token.isNullOrBlank() || patientId.isNullOrBlank()) {
+        if (patientId.isNullOrBlank()) {
             Toast.makeText(requireContext(), "Sesión inválida, vuelve a iniciar sesión", Toast.LENGTH_SHORT).show()
             return
         }
@@ -130,12 +130,18 @@ class HistoryDetailFragment : Fragment() {
 
         lifecycleScope.launch {
             try {
-                val response = RetrofitClient.patientApiService.getClinicalHistory(
-                    token = "Bearer $token",
-                    patientId = patientId
-                )
-                if (response.isSuccessful && response.body() != null) {
+                val response = AuthRepository.authenticatedRequest(prefsHelper) { authHeader ->
+                    RetrofitClient.patientApiService.getClinicalHistory(
+                        token = authHeader,
+                        patientId = patientId
+                    )
+                }
+                if (response == null) {
+                    Toast.makeText(requireContext(), "Sesión inválida", Toast.LENGTH_SHORT).show()
+                } else if (response.isSuccessful && response.body() != null) {
                     bindHistory(response.body()!!)
+                } else if (response.code() == 401) {
+                    Toast.makeText(requireContext(), "Sesión expirada, vuelve a iniciar sesión", Toast.LENGTH_SHORT).show()
                 } else {
                     binding.detailEmptyState.visibility = View.VISIBLE
                 }

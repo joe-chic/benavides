@@ -18,6 +18,7 @@ import jonathan.humphreys.benavidesapp.data.model.FamilyHistoryEntry
 import jonathan.humphreys.benavidesapp.data.model.PersonalInfoResponse
 import jonathan.humphreys.benavidesapp.data.model.ProcedureEntry
 import jonathan.humphreys.benavidesapp.databinding.FragmentMedicalHistoryBinding
+import jonathan.humphreys.benavidesapp.data.repository.AuthRepository
 import jonathan.humphreys.benavidesapp.databinding.ViewHistoryEntryBinding
 import jonathan.humphreys.benavidesapp.util.SharedPreferencesHelper
 import jonathan.humphreys.benavidesapp.ui.patient.fragments.HistoryDetailType
@@ -87,22 +88,27 @@ class MedicalHistoryFragment : Fragment() {
     }
 
     private fun loadPersonalInfo() {
-        val token = prefsHelper.getAccessToken()
         val patientId = prefsHelper.getUserId()
 
-        if (token.isNullOrBlank() || patientId.isNullOrBlank()) {
+        if (patientId.isNullOrBlank()) {
             Toast.makeText(requireContext(), "No se encontró la sesión del paciente", Toast.LENGTH_SHORT).show()
             return
         }
 
         lifecycleScope.launch {
             try {
-                val response = RetrofitClient.patientApiService.getPersonalInfo(
-                    token = "Bearer $token",
-                    patientId = patientId
-                )
-                if (response.isSuccessful && response.body() != null) {
+                val response = AuthRepository.authenticatedRequest(prefsHelper) { authHeader ->
+                    RetrofitClient.patientApiService.getPersonalInfo(
+                        token = authHeader,
+                        patientId = patientId
+                    )
+                }
+                if (response == null) {
+                    Toast.makeText(requireContext(), "Sesión inválida", Toast.LENGTH_SHORT).show()
+                } else if (response.isSuccessful && response.body() != null) {
                     bindPersonalInfo(response.body()!!)
+                } else if (response.code() == 401) {
+                    Toast.makeText(requireContext(), "Sesión expirada, vuelve a iniciar sesión", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(requireContext(), "No se pudo cargar la información personal", Toast.LENGTH_SHORT).show()
                 }
@@ -113,22 +119,27 @@ class MedicalHistoryFragment : Fragment() {
     }
 
     private fun loadClinicalHistory() {
-        val token = prefsHelper.getAccessToken()
         val patientId = prefsHelper.getUserId()
 
-        if (token.isNullOrBlank() || patientId.isNullOrBlank()) {
+        if (patientId.isNullOrBlank()) {
             Toast.makeText(requireContext(), "No se encontró la sesión del paciente", Toast.LENGTH_SHORT).show()
             return
         }
 
         lifecycleScope.launch {
             try {
-                val response = RetrofitClient.patientApiService.getClinicalHistory(
-                    token = "Bearer $token",
-                    patientId = patientId
-                )
-                if (response.isSuccessful && response.body() != null) {
+                val response = AuthRepository.authenticatedRequest(prefsHelper) { authHeader ->
+                    RetrofitClient.patientApiService.getClinicalHistory(
+                        token = authHeader,
+                        patientId = patientId
+                    )
+                }
+                if (response == null) {
+                    Toast.makeText(requireContext(), "Sesión inválida", Toast.LENGTH_SHORT).show()
+                } else if (response.isSuccessful && response.body() != null) {
                     bindClinicalHistory(response.body()!!)
+                } else if (response.code() == 401) {
+                    Toast.makeText(requireContext(), "Sesión expirada, vuelve a iniciar sesión", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(requireContext(), "No se pudo cargar el historial clínico", Toast.LENGTH_SHORT).show()
                 }

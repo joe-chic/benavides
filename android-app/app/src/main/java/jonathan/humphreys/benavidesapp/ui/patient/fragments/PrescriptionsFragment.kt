@@ -17,6 +17,7 @@ import com.google.android.material.button.MaterialButton
 import jonathan.humphreys.benavidesapp.R
 import jonathan.humphreys.benavidesapp.data.api.RetrofitClient
 import jonathan.humphreys.benavidesapp.data.model.Prescription
+import jonathan.humphreys.benavidesapp.data.repository.AuthRepository
 import jonathan.humphreys.benavidesapp.databinding.FragmentPrescriptionsBinding
 import jonathan.humphreys.benavidesapp.ui.patient.adapters.PrescriptionAdapter
 import jonathan.humphreys.benavidesapp.ui.patient.decorations.VerticalSpacingItemDecoration
@@ -97,25 +98,28 @@ class PrescriptionsFragment : Fragment() {
     }
 
     private fun loadPrescriptions() {
-        val token = prefsHelper.getAccessToken()
         val userId = prefsHelper.getUserId()
 
-        if (token == null || userId == null) {
-            Toast.makeText(requireContext(), "Error: No se encontró token de autenticación", Toast.LENGTH_SHORT).show()
+        if (userId == null) {
+            Toast.makeText(requireContext(), "Error: sesión inválida", Toast.LENGTH_SHORT).show()
             return
         }
 
         binding.progressBar.visibility = View.VISIBLE
         lifecycleScope.launch {
             try {
-                val response = RetrofitClient.prescriptionApiService.getPrescriptions(
-                    "Bearer $token",
-                    patientId = userId,
-                    skip = 0,
-                    limit = 100
-                )
+                val response = AuthRepository.authenticatedRequest(prefsHelper) { authHeader ->
+                    RetrofitClient.prescriptionApiService.getPrescriptions(
+                        authHeader,
+                        patientId = userId,
+                        skip = 0,
+                        limit = 100
+                    )
+                }
 
-                if (response.isSuccessful && response.body() != null) {
+                if (response == null) {
+                    Toast.makeText(requireContext(), "Error: sesión inválida", Toast.LENGTH_SHORT).show()
+                } else if (response.isSuccessful && response.body() != null) {
                     allPrescriptions = response.body()!!.sortedByDescending { prescription ->
                         prescription.createdAt?.let { dateStr ->
                             try {
@@ -128,6 +132,8 @@ class PrescriptionsFragment : Fragment() {
                     filteredPrescriptions = allPrescriptions
                     currentPage = 1
                     updatePaginationState()
+                } else if (response.code() == 401) {
+                    Toast.makeText(requireContext(), "Sesión expirada. Inicia sesión nuevamente.", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(requireContext(), "Error al cargar prescripciones", Toast.LENGTH_SHORT).show()
                 }
