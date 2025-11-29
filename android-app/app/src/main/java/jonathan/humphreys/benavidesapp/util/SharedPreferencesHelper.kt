@@ -25,8 +25,6 @@ class SharedPreferencesHelper(context: Context) {
     fun getAccessToken(): String? = prefs.getString(KEY_ACCESS_TOKEN, null)
     fun getRefreshToken(): String? = prefs.getString(KEY_REFRESH_TOKEN, null)
     
-    fun getRefreshToken(): String? = prefs.getString(KEY_REFRESH_TOKEN, null)
-    
     fun saveUserInfo(userId: String, username: String) {
         prefs.edit().apply {
             putString(KEY_USER_ID, userId)
