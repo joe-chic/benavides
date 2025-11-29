@@ -8,6 +8,19 @@
     <string name="signos_vitales">Signos vitales</string>
     <string name="configuracion">Configuración</string>
     <string name="welcome">Bienvenido</string>
+    <string name="home_welcome">Hola, %1$s</string>
+    <string name="home_summary_title">Resumen general</string>
+    <string name="home_quick_appointments">Citas activas</string>
+    <string name="home_quick_prescriptions">Prescripciones totales</string>
+    <string name="home_next_appointment">Próxima cita</string>
+    <string name="home_no_appointments">No tienes citas programadas.</string>
+    <string name="home_prescriptions_title">Estado de prescripciones</string>
+    <string name="home_recent_prescriptions">Últimas recetas</string>
+    <string name="home_no_prescriptions">Aún no hay prescripciones registradas.</string>
+    <string name="home_status_placeholder">--</string>
+    <string name="prescriptions_vigente_label">Vigentes: %1$d</string>
+    <string name="prescriptions_dispensada_label">Dispensadas: %1$d</string>
+    <string name="prescriptions_otras_label">Otras: %1$d</string>
     
     <!-- Login Screen -->
     <string name="login_title">Inicio de sesión</string>
