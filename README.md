@@ -75,11 +75,10 @@ A full-stack platform for managing Farmacias Benavides clinical data with:
 
 ### Test Credentials
 
-Use the following logins while the UI/auth backend is under development:
-- **Patient**: `juan.perez@email.com` (any password)
-- **Medical staff**: `dr.garcia@farmaciasbenavides.com.mx` (any password)
+Use the following login while the UI/auth backend is under development:
+- **Paciente recomendado** (experiencia completa): `juan.perez@email.com` — cualquier contraseña
 
-More optional accounts live in `android-app/TEST_CREDENTIALS.md`.
+> Nota: las vistas para personal médico aún no están implementadas. Las demás credenciales listadas en `android-app/TEST_CREDENTIALS.md` solo sirven para pruebas de autenticación básica.
 
 ### API Testing
 
@@ -87,7 +86,7 @@ More optional accounts live in `android-app/TEST_CREDENTIALS.md`.
 2. Call `/api/v1/auth/login` with:
    ```json
    {
-     "email": "dr.garcia@farmaciasbenavides.com.mx",
+     "email": "juan.perez@email.com",
      "password": "test123"
    }
    ```
