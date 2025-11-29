@@ -50,4 +50,7 @@
     <color name="chip_neutral_text">#4B5565</color>
     <color name="chip_warning_bg">#FDEAD7</color>
     <color name="chip_warning_text">#B54708</color>
+    <color name="chip_text_primary">#0E47A1</color>
+    <color name="chip_text_neutral">#4B5565</color>
+    <color name="chip_text_warning">#B54708</color>
 </resources>
