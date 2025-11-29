@@ -66,7 +66,7 @@ class PatientHomeActivity : AppCompatActivity() {
         
         // Sidebar menu items
         binding.sidebarEstudiosResultados.setOnClickListener {
-            handleSidebarSelection(binding.sidebarEstudiosResultados, "Estudios y resultados", HomeFragment())
+            handleSidebarSelection(binding.sidebarEstudiosResultados, "Estudios y resultados", StudiesResultsFragment())
         }
         
         binding.sidebarSignosVitales.setOnClickListener {

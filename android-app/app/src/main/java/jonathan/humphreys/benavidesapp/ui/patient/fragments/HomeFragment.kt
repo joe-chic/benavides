@@ -18,7 +18,7 @@ import jonathan.humphreys.benavidesapp.data.model.PersonalInfoResponse
 import jonathan.humphreys.benavidesapp.data.model.Prescription
 import jonathan.humphreys.benavidesapp.databinding.FragmentHomeBinding
 import jonathan.humphreys.benavidesapp.util.SharedPreferencesHelper
-import kotlinx.coroutines.async
+import jonathan.humphreys.benavidesapp.data.repository.AuthRepository
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -47,10 +47,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadDashboard() {
-        val token = prefsHelper.getAccessToken()
         val patientId = prefsHelper.getUserId()
 
-        if (token.isNullOrBlank() || patientId.isNullOrBlank()) {
+        if (patientId.isNullOrBlank()) {
             Toast.makeText(requireContext(), getString(R.string.error_network), Toast.LENGTH_SHORT).show()
             binding.homeProgress.isVisible = false
             binding.homeContent.isVisible = false
@@ -62,28 +61,24 @@ class HomeFragment : Fragment() {
 
         lifecycleScope.launch {
             try {
-                val authHeader = "Bearer $token"
-                val personalDeferred = async {
+                val personalResponse = AuthRepository.authenticatedRequest(prefsHelper) { authHeader ->
                     RetrofitClient.patientApiService.getPersonalInfo(authHeader, patientId)
                 }
-                val appointmentsDeferred = async {
+                val appointmentsResponse = AuthRepository.authenticatedRequest(prefsHelper) { authHeader ->
                     RetrofitClient.appointmentApiService.getAppointments(authHeader, patientId, limit = 50)
                 }
-                val prescriptionsDeferred = async {
+                val prescriptionsResponse = AuthRepository.authenticatedRequest(prefsHelper) { authHeader ->
                     RetrofitClient.prescriptionApiService.getPrescriptions(authHeader, patientId, skip = 0, limit = 50)
                 }
 
-                val personalInfo = personalDeferred.await().body()
-                val appointmentsResponse = appointmentsDeferred.await()
-                val prescriptionsResponse = prescriptionsDeferred.await()
-
-                if (!appointmentsResponse.isSuccessful || !prescriptionsResponse.isSuccessful) {
+                val personalInfo = personalResponse?.body()
+                if (appointmentsResponse == null || prescriptionsResponse == null) {
                     Toast.makeText(requireContext(), R.string.error_network, Toast.LENGTH_SHORT).show()
+                } else {
+                    bindPersonalInfo(personalInfo)
+                    bindAppointments(appointmentsResponse.body().orEmpty())
+                    bindPrescriptions(prescriptionsResponse.body().orEmpty())
                 }
-
-                bindPersonalInfo(personalInfo)
-                bindAppointments(appointmentsResponse.body().orEmpty())
-                bindPrescriptions(prescriptionsResponse.body().orEmpty())
 
                 binding.homeContent.isVisible = true
             } catch (e: Exception) {

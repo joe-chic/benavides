@@ -21,6 +21,9 @@
     <string name="prescriptions_vigente_label">Vigentes: %1$d</string>
     <string name="prescriptions_dispensada_label">Dispensadas: %1$d</string>
     <string name="prescriptions_otras_label">Otras: %1$d</string>
+    <string name="studies_results_title">Estudios y resultados</string>
+    <string name="studies_results_description">Aquí se mostrarán tus últimos estudios de laboratorio y resultados compartidos por tu equipo médico.</string>
+    <string name="studies_results_hint">Próximamente podrás ver detalles, descargar PDFs y compartirlos con tus especialistas.</string>
     
     <!-- Login Screen -->
     <string name="login_title">Inicio de sesión</string>
